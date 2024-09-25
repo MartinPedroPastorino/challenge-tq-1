@@ -1,1 +1,6 @@
-org\example\Main.class
+org\example\controller\SuperheroeController.class
+org\example\service\ISuperheroeService.class
+org\example\model\Superheroe.class
+org\example\repository\SuperheroeRepository.class
+org\example\SuperheroesApplication.class
+org\example\service\SuperheroeService.class

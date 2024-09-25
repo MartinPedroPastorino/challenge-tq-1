@@ -3,11 +3,15 @@ package org.example.controller;
 import org.example.model.Superheroe;
 import org.example.service.SuperheroeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/superheroes/")
 public class SuperheroeController {
 
     private final SuperheroeService superheroeService;
@@ -17,11 +21,13 @@ public class SuperheroeController {
         this.superheroeService = superheroeService;
     }
 
+    @GetMapping("/all")
     public List<Superheroe> getAllSuperHeroes() {
         return superheroeService.getAllSuperHeroes();
     }
 
-    public List<Superheroe> getAllSuperHeroesContains(String target) {
+    @GetMapping("/all/{target}")
+    public List<Superheroe> getAllSuperHeroesContains(@PathParam("target") String target) {
         return superheroeService.getAllSuperHeroesContains(target);
     }
 
