@@ -13,9 +13,9 @@ public class Superheroe {
 
     @Id
     @GeneratedValue
-    @Column(name="CUSTOMERID",updatable = false)
+    @Column(name="id",updatable = false)
     private Integer id;
 
-    @Column(name="CUSTOMERID", nullable = false)
+    @Column(name="nombre", nullable = false)
     private String nombre;
 }
