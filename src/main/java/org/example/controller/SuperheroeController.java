@@ -3,48 +3,49 @@ package org.example.controller;
 import org.example.model.Superheroe;
 import org.example.service.SuperheroeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/superheroes/")
+@RequestMapping("/superheroes")
 public class SuperheroeController {
 
-    private final SuperheroeService superheroeService;
-
     @Autowired
-    public SuperheroeController(SuperheroeService superheroeService){
-        this.superheroeService = superheroeService;
-    }
+    private SuperheroeService superheroeService;
 
-    @GetMapping("/all")
-    public List<Superheroe> getAllSuperHeroes() {
+    @GetMapping
+    public List<Superheroe> getAllSuperheroes() {
         return superheroeService.getAllSuperHeroes();
     }
 
-    @GetMapping("/all/{target}")
-    public List<Superheroe> getAllSuperHeroesContains(@PathParam("target") String target) {
-        return superheroeService.getAllSuperHeroesContains(target);
+    @GetMapping("/{id}")
+    public ResponseEntity<Superheroe> getSuperheroeById(@PathVariable Integer id) {
+        Optional<Superheroe> superheroe = superheroeService.getSuperHeroeById(id);
+        return superheroe.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public Superheroe getSuperHeroe(Integer id) {
-        return superheroeService.getSuperHeroe(id);
+    @PostMapping
+    public Superheroe createSuperheroe(@RequestBody Superheroe superheroe) {
+        return superheroeService.saveSuperheroe(superheroe);
     }
 
-    public Superheroe CreateSuperHeroe(String nombre) {
-        return superheroeService.CreateSuperHeroe(nombre);
+    @PutMapping("/{id}")
+    public ResponseEntity<Superheroe> updateSuperheroe(@PathVariable Integer id, @RequestBody Superheroe updatedSuperheroe) {
+        try {
+            return ResponseEntity.ok(superheroeService.updateSuperheroe(id, updatedSuperheroe));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    public Superheroe ModifySuperheroe(Integer id, String nombre) {
-        return superheroeService.ModifySuperheroe(id,nombre);
-    }
 
-    public void DeleteSuperheroe(Integer id, String nombre) {
-        superheroeService.DeleteSuperheroe(id,nombre);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSuperheroe(@PathVariable Integer id) {
+        superheroeService.deleteSuperheroe(id);
+        return ResponseEntity.ok().build();
     }
-
 }

@@ -3,15 +3,16 @@ package org.example.service;
 import org.example.model.Superheroe;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ISuperheroeService {
     public List<Superheroe> getAllSuperHeroes();
     public List<Superheroe> getAllSuperHeroesContains(String target);
-    public Superheroe getSuperHeroe(Integer id);
+    public Optional<Superheroe> getSuperHeroeById(Integer id);
 
-    public Superheroe CreateSuperHeroe(String nombre);
+    public Superheroe saveSuperheroe(Superheroe superheroe);
 
-    public Superheroe ModifySuperheroe(Integer id,String nombre);
+    public Superheroe updateSuperheroe(Integer id,  Superheroe updatedSuperheroe);
 
-    public void DeleteSuperheroe(Integer id,String nombre);
+    public void deleteSuperheroe(Integer id);
 }
